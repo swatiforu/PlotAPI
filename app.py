@@ -59,7 +59,7 @@ def getprediction():
   X_scaled = scaler1.fit_transform(X)
   y_scaled = scaler2.fit_transform(y)
   X_scaled = X_scaled.reshape((X_scaled.shape[0], X_scaled.shape[1] , 1))
-  model = load_model(area+'.h5')
+  model = load_model('PlotModels/'+area+'.h5')
   dat = X_scaled[-1].copy()
   nd = []
   preds = []

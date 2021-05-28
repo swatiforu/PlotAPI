@@ -50,7 +50,7 @@ def getprediction():
   X = []
   y = []
   window = 60
-  data = df.PPM.values.copy()
+  data = data.PPM.values.copy()
   for i in range(len(data)-60):
     X.append(np.asarray(data[i:i+60]))
     y.append(np.asarray([data[i+60]]))

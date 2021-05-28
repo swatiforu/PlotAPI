@@ -26,6 +26,33 @@ for i in df.Location:
   substitute.append(areas[areas['location'] == i].values[0][1])
 df.Location = substitute
 
+@app.route('/historical/', methods=['GET'])
+def historical():
+  area = request.args['area']
+  ndf = df[df['Location'] == area]
+  k = ndf.Date.unique()
+  k.sort()
+  t = datetime.datetime.strptime(k[0], '%Y-%m-%d')
+  dates = []
+  while t.date()!=datetime.date.today():
+    dates.append(str(t.date()))
+    t = t+datetime.timedelta(days=1)
+  ppm = []
+  for i in dates:
+    vals = ndf[ndf['Date'] == i]
+    vals['PPM'] = vals['Price']/pd.to_numeric(vals['Area'])
+    ppm.append(vals.PPM.sum()/len(vals))
+  ppm = pd.Series(ppm)
+  data = pd.DataFrame(ppm.interpolate(), columns = ['ppm'])
+  data['Date'] = dates
+  val = data.values[-60:]
+  tt = dict()
+  for i in range(len(val)):
+    key = val[i][1]
+    price = val[i][0]
+    tt[key] = price
+  return tt
+
 @app.route('/predictions/', methods=['GET'])
 def getprediction():
   area = request.args['area']

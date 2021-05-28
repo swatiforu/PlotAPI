@@ -59,15 +59,19 @@ def getprediction():
   X_scaled = scaler1.fit_transform(X)
   y_scaled = scaler2.fit_transform(y)
   X_scaled = X_scaled.reshape((X_scaled.shape[0], X_scaled.shape[1] , 1))
-  model = load_model('PlotModels/'+area+'.h5')
+  model = load_model(area+'.h5')
   dat = X_scaled[-1].copy()
+  nd = []
   preds = []
+  dt = datetime.datetime.strptime(dates[-1], '%Y-%m-%d')
   for i in range(7):
     val = model.predict(np.asarray([dat]))
     preds.append(val)
+    dt = dt+datetime.timedelta(days=1)
+    nd.append(str(dt.date()))
     for j in range(len(dat)-1):
       dat[j] = np.asarray([dat[j+1]])
     dat[-1] = val
   preds = np.array(preds)
   p = scaler2.inverse_transform(preds.reshape((preds.shape[0], preds.shape[1])))
-  return pd.DataFrame(list(p.reshape((p.shape[0]*p.shape[1]))), columns = ['values'])['values'].T.to_dict()
+  return pd.DataFrame(list(p.reshape((p.shape[0]*p.shape[1]))), columns = ['values'], index = nd)['values'].T.to_dict()

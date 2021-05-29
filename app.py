@@ -12,7 +12,7 @@ CORS(app)
 
 fb = firebase.FirebaseApplication('https://historicaldatafyp-default-rtdb.firebaseio.com/', None)
 
-a = fb.get('historicaldatafyp-default-rtdb/Plots/-Maj9hcUegnMdKltW7RB', '')
+a = fb.get('historicaldatafyp-default-rtdb/Plots/-ManBGVsmFRoISvy6Z-R', '')
 df = pd.DataFrame(a)
 areas = pd.read_excel('final_plotareas.xlsx')
 areas.drop(['Unnamed: 0'], axis = 1, inplace=True)

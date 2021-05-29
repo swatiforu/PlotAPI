@@ -14,7 +14,7 @@ fb = firebase.FirebaseApplication('https://historicaldatafyp-default-rtdb.fireba
 
 a = fb.get('historicaldatafyp-default-rtdb/Plots/-Mas01Cu0i8scu0dN_By', '')
 df = pd.DataFrame(a)
-areas = pd.read_excel('final_plotareas.xlsx')
+'''areas = pd.read_excel('final_plotareas.xlsx')
 areas.drop(['Unnamed: 0'], axis = 1, inplace=True)
 unique = df.Location.unique()
 remove = []
@@ -26,7 +26,7 @@ for j in remove:
 substitute = []
 for i in df.Location:
   substitute.append(areas[areas['location'] == i].values[0][1])
-df.Location = substitute
+df.Location = substitute'''
 
 @app.route('/historical/', methods=['GET'])
 def historical():
